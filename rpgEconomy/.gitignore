@@ -1,3 +1,8 @@
+# Ignore les fichiers de configuration d'Eclipse
+.classpath
+.project
+.settings/
+
 # Compiled class file
 *.class
 
