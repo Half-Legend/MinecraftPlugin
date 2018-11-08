@@ -24,7 +24,7 @@ public class EventsClass implements Listener {
         if(!player.hasPlayedBefore()) {
             plugin.getServer().broadcastMessage(ChatColor.BLUE + "Welcome to " + player.getName() + "!");
         } else {
-            player.sendMessage(ChatColor.BLUE + "Welcome bakc " + player.getName());
+            player.sendMessage(ChatColor.BLUE + "Welcome back " + player.getName());
         }
         if (!EconomyManager.hasAccount(player.getName())) {
             EconomyManager.setBalance(player.getName(), 0);

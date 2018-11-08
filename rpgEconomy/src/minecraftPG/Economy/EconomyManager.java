@@ -57,4 +57,8 @@ public class EconomyManager {
     public static RpgEconomy getPlugin() {
         return plugin;
     }
+
+    public static boolean hasEnoughtMoney(String player, double amount) {
+        return (getBalances(player) - amount > 0);
+    }
 }
