@@ -33,10 +33,13 @@ public class EconomyCommand implements CommandExecutor {
                 }
                 if (args[0].equalsIgnoreCase("add")) {
                     EconomyManager.add(args[1], amount);
+                    sender.sendMessage(ChatColor.DARK_GRAY + "You just received: " + ChatColor.GREEN + amount + "$");
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     EconomyManager.add(args[1], -amount);
+                    sender.sendMessage(ChatColor.DARK_GRAY + "You spent: " + ChatColor.RED + amount + "$");
                 } else {
                     EconomyManager.setBalance(args[1], amount);
+                    sender.sendMessage(ChatColor.DARK_GRAY + "Your balance has been set to: " + ChatColor.GREEN + amount + "$");
                 }
             }
         } else {

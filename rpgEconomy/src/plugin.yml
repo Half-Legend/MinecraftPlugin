@@ -6,3 +6,5 @@ description: This plugin add balances to the players and all the functionnality 
 commands:
     Economy:
         description: To use this command, type /Economy <add/remove/set> <PlayerName> <Amount>.
+    Balance:
+        description: Use this command to check your account.
