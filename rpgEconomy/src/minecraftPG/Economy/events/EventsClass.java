@@ -42,11 +42,37 @@ public class EventsClass implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage(ChatColor.GREEN + "Line 0: " + event.getLine(0));
         if(event.getLine(0).equalsIgnoreCase("[Buy]")) {
             if(!player.hasPermission("shop")) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(ChatColor.RED + "You don't have the permissions to create a shop");
+                player.sendMessage(ChatColor.RED + "You don't have the permissions to create a shop");
+            } else {
+                int quantity = 0;
+                try {
+                    quantity =  Integer.parseInt(event.getLine(1));
+                } catch (Exception e) {
+                    player.sendMessage(ChatColor.RED + event.getLine(1) + " is not an integer");
+                    event.setCancelled(true);
+                } if (quantity <= 0 || quantity > 64) {
+                    event.setLine(1, "1");
+                }
+                
+                double price = 0;
+                try {
+                    price = Double.parseDouble(event.getLine(2));
+                } catch (Exception e) {
+                    player.sendMessage(ChatColor.RED + event.getLine(2) + " is not a double");
+                    event.setCancelled(true);
+                }
+                if (price < 0) {
+                    player.sendMessage(ChatColor.RED + "The price should be a positive number");
+                    event.setCancelled(true);
+                }
+                Material onSell = Material.getMaterial(event.getLine(3).toUpperCase());
+                if (onSell == null) {
+                    player.sendMessage(ChatColor.RED + event.getLine(3) + " is not a valid item.");
+                    event.setCancelled(true);
+                }
             }
         }
     }
@@ -62,34 +88,17 @@ public class EventsClass implements Listener {
              if (block.getType() == Material.WALL_SIGN) {
                  Sign sign = (Sign) block.getState();
                  if(sign.getLine(0).equalsIgnoreCase("[Buy]")) {
-                     int quantity = 0;
-                     try {
-                         quantity =  Integer.parseInt(sign.getLine(1));
-                     } catch (Exception e) {
-                         player.sendMessage(ChatColor.RED + "The quantity is not an integer");
-                         //NOTHING TO DO
-                     }
-                     if (quantity > 0 && quantity <= 64) {
-                         double price = 0;
-                         try {
-                             price = Double.parseDouble(sign.getLine(2));
-                         } catch (Exception e) {
-                             player.sendMessage(ChatColor.RED + "The price is not a double");
-                             //NOTHING TO DO
-                         }
-                         if (price != 0) {
-                             Material onSell = Material.getMaterial(sign.getLine(3).toUpperCase());
-                             if(onSell != null) {
-                                 if (EconomyManager.hasEnoughtMoney(player.getName(), price)) {
-                                     giveItem(player, quantity, onSell);
-                                     EconomyManager.add(player.getName(), -price);
-                                     player.sendMessage(ChatColor.DARK_GRAY + "You bought " + ChatColor.GREEN + quantity + " " 
-                                     + onSell.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.RED + price + "$");
-                                 } else {
-                                     player.sendMessage(ChatColor.RED + "You don't have enought money to do this.");
-                                 }
-                             }
-                         }
+                     int quantity = Integer.parseInt(sign.getLine(1));
+                     double price = Double.parseDouble(sign.getLine(2));
+                     Material onSell = Material.getMaterial(sign.getLine(3).toUpperCase());
+                     
+                     if (EconomyManager.hasEnoughtMoney(player.getName(), price)) {
+                         giveItem(player, quantity, onSell);
+                         EconomyManager.add(player.getName(), -price);
+                         player.sendMessage(ChatColor.DARK_GRAY + "You bought " + ChatColor.GREEN + quantity + " " 
+                         + onSell.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.RED + price + "$");
+                     } else {
+                         player.sendMessage(ChatColor.RED + "You don't have enought money to do this.");
                      }
                  }
              }

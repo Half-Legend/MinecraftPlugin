@@ -17,4 +17,4 @@ permissions:
         default: op
     EconomyPerm: 
         description: This permissions give access to all the /Economy commands
-        default: false
+        default: op
