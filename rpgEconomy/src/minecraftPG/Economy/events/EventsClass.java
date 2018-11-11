@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -37,13 +38,24 @@ public class EventsClass implements Listener {
         }
         
     }
+
+    @EventHandler
+    public void onSignChange(SignChangeEvent event) {
+        Player player = event.getPlayer();
+        player.sendMessage(ChatColor.GREEN + "Line 0: " + event.getLine(0));
+        if(event.getLine(0).equalsIgnoreCase("[Buy]")) {
+            if(!player.hasPermission("shop")) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(ChatColor.RED + "You don't have the permissions to create a shop");
+            }
+        }
+    }
     
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
          Action action = event.getAction();
          Block block = event.getClickedBlock();
          Player player = event.getPlayer();
-
          
          //Actions on right click.
          if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -54,7 +66,7 @@ public class EventsClass implements Listener {
                      try {
                          quantity =  Integer.parseInt(sign.getLine(1));
                      } catch (Exception e) {
-                         player.sendMessage(ChatColor.RED + "The quantityy is not an integer");
+                         player.sendMessage(ChatColor.RED + "The quantity is not an integer");
                          //NOTHING TO DO
                      }
                      if (quantity > 0 && quantity <= 64) {

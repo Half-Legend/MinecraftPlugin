@@ -10,3 +10,8 @@ commands:
         description: Use this command to check your account.
     Give:
         description: One player can give money to another player. This command is meant to be use like /Give <Player> <Player> <Amount>
+        
+permissions:
+    shop:
+        description: This permissions allow to create shops
+        default: op
