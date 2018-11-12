@@ -69,7 +69,7 @@ public class EventsClass implements Listener {
                         int bPrice = Integer.parseInt(buyPrice.group());
                         int sPrice = Integer.parseInt(sellPrice.group());
                         if (bPrice > 0 && sPrice > 0) {
-                            event.setLine(2,"B " + buyPrice.group() + "$" + ChatColor.GREEN + " S " + sellPrice.group() + "$");
+                            event.setLine(2,ChatColor.RED + "B " + buyPrice.group() + "$" + ChatColor.GREEN + " S " + sellPrice.group() + "$");
                         } else {
                             player.sendMessage(ChatColor.RED + "Prices can't less than 1");
                         }
