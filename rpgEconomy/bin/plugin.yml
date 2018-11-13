@@ -1,6 +1,6 @@
 name: RpgEconomy
 author: HalfLegend
-version: 1.0
+version: 2.0
 main: minecraftPG.Economy.RpgEconomy
 description: This plugin add balances to the players and all the functionnality that go with it.
 commands:

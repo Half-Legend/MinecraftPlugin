@@ -25,7 +25,7 @@ public class RpgEconomy extends JavaPlugin{
         new EconomyManager(this);
         SLAPI.loadBalances();
         getServer().getPluginManager().registerEvents(new EventsClass(getPlugin(this.getClass())), this);
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "\n\nPlugin as been enabled\n\n");
+        getServer().getConsoleSender().sendMessage("\n\nRpgEconomy as been enabled\n\n");
     }
     
     /**
