@@ -100,64 +100,67 @@ public class EventsClass implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
          Action action = event.getAction();
-         Block block = event.getClickedBlock();
+         
          Player player = event.getPlayer();
-
-         if (block.getType() == Material.WALL_SIGN) {
-             Sign sign = (Sign) block.getState();
-             if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "Shop")) {
-                 int quantity = getQuantity(sign.getLine(3));
-                 Material item = Material.getMaterial(sign.getLine(1).toUpperCase());
-                 ItemStack itemStack = new ItemStack(item);
-                 itemStack.setAmount(quantity);
-                 
-                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
-                     String line2 = ChatColor.stripColor(sign.getLine(2));
-                     Pattern patternBuyPrice = Pattern.compile("^B\\s(\\d+)");
-                     Matcher buyPrice = patternBuyPrice.matcher(line2);
+         if( (action.equals(Action.LEFT_CLICK_BLOCK)) || action.equals(Action.RIGHT_CLICK_BLOCK))
+         {
+             Block block = event.getClickedBlock();
+             if (block.getType() == Material.WALL_SIGN) {
+                 Sign sign = (Sign) block.getState();
+                 if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "Shop")) {
+                     int quantity = getQuantity(sign.getLine(3));
+                     Material item = Material.getMaterial(sign.getLine(1).toUpperCase());
+                     ItemStack itemStack = new ItemStack(item);
+                     itemStack.setAmount(quantity);
                      
-                     int bPrice = 0;
-                     if (buyPrice.find()) {
-                         bPrice = Integer.parseInt(buyPrice.group(1));
-                     }
-                     if (EconomyManager.hasEnoughtMoney(player.getName(), bPrice)) {
-                         player.getInventory().addItem(itemStack);
-                         EconomyManager.add(player.getName(), -bPrice);
-                         player.sendMessage(ChatColor.DARK_GRAY + "You bought " + ChatColor.GREEN + quantity + " " 
-                         + item.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.RED + bPrice + "$");
-                     } else {
-                         player.sendMessage(ChatColor.RED + "You don't have enought money to do this.");
-                     }
-                     
-                 } else if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                     Pattern patternSellPrice = Pattern.compile("(\\d+)(.)$");
-                     String line2 = ChatColor.stripColor(sign.getLine(2));
-                     Matcher sellPrice = patternSellPrice.matcher(line2);
-                     int sPrice = 0;
-                     if (sellPrice.find()) {
-                         sPrice = Integer.parseInt(sellPrice.group(1));
-                     }
-                     
-                     if(player.getInventory().contains(item, quantity)) {
-                         int slot = player.getInventory().first(item);
-                         int available = player.getInventory().getItem(slot).getAmount();
-                         int remaining = quantity;
-                         do {
-                             slot = player.getInventory().first(item);
-                             available = player.getInventory().getItem(slot).getAmount();
-                             if (available < remaining) {
-                                 player.getInventory().getItem(slot).setAmount(0);
-                             } else {
-                                 player.getInventory().getItem(slot).setAmount(available - remaining);
-                             }
-                             remaining -= available;
-                         } while(remaining > 0);
-
-                         EconomyManager.add(player.getName(), sPrice);
-                         player.sendMessage(ChatColor.DARK_GRAY + "You sold " + ChatColor.RED + quantity + " " 
-                                 + item.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.GREEN + sPrice + "$");
-                     } else {
-                         player.sendMessage(ChatColor.RED + "You need: " + quantity + " " + item.toString() + " to do this.");
+                     if (action.equals(Action.LEFT_CLICK_BLOCK)) {
+                         String line2 = ChatColor.stripColor(sign.getLine(2));
+                         Pattern patternBuyPrice = Pattern.compile("^B\\s(\\d+)");
+                         Matcher buyPrice = patternBuyPrice.matcher(line2);
+                         
+                         int bPrice = 0;
+                         if (buyPrice.find()) {
+                             bPrice = Integer.parseInt(buyPrice.group(1));
+                         }
+                         if (EconomyManager.hasEnoughtMoney(player.getName(), bPrice)) {
+                             player.getInventory().addItem(itemStack);
+                             EconomyManager.add(player.getName(), -bPrice);
+                             player.sendMessage(ChatColor.DARK_GRAY + "You bought " + ChatColor.GREEN + quantity + " " 
+                             + item.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.RED + bPrice + "$");
+                         } else {
+                             player.sendMessage(ChatColor.RED + "You don't have enought money to do this.");
+                         }
+                         
+                     } else if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
+                         Pattern patternSellPrice = Pattern.compile("(\\d+)(.)$");
+                         String line2 = ChatColor.stripColor(sign.getLine(2));
+                         Matcher sellPrice = patternSellPrice.matcher(line2);
+                         int sPrice = 0;
+                         if (sellPrice.find()) {
+                             sPrice = Integer.parseInt(sellPrice.group(1));
+                         }
+                         
+                         if(player.getInventory().contains(item, quantity)) {
+                             int slot = player.getInventory().first(item);
+                             int available = player.getInventory().getItem(slot).getAmount();
+                             int remaining = quantity;
+                             do {
+                                 slot = player.getInventory().first(item);
+                                 available = player.getInventory().getItem(slot).getAmount();
+                                 if (available < remaining) {
+                                     player.getInventory().getItem(slot).setAmount(0);
+                                 } else {
+                                     player.getInventory().getItem(slot).setAmount(available - remaining);
+                                 }
+                                 remaining -= available;
+                             } while(remaining > 0);
+    
+                             EconomyManager.add(player.getName(), sPrice);
+                             player.sendMessage(ChatColor.DARK_GRAY + "You sold " + ChatColor.RED + quantity + " " 
+                                     + item.toString() + ChatColor.DARK_GRAY + " for " + ChatColor.GREEN + sPrice + "$");
+                         } else {
+                             player.sendMessage(ChatColor.RED + "You need: " + quantity + " " + item.toString() + " to do this.");
+                         }
                      }
                  }
              }

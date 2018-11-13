@@ -6,7 +6,6 @@ import minecraftPG.Economy.commands.BalanceCommand;
 import minecraftPG.Economy.commands.EconomyCommand;
 import minecraftPG.Economy.commands.GiveCommand;
 import minecraftPG.Economy.events.EventsClass;
-import net.md_5.bungee.api.ChatColor;
 
 /**
  * Main class.
