@@ -45,11 +45,23 @@ public class NPCCommands implements CommandExecutor{
                     //CustomNPC customNPC = new CustomNPC(NPCManager.getPlugin(),args[1],player.getLocation());
                     if(!args[1].isEmpty()) {
                         sender.sendMessage(ChatColor.GREEN + "Calling createNPC");
-                        NPCManager.createNPC(args[1], player);
-                        NPCManager.displayNPCs();
+                        NPCManager.createNPC(args[1], player.getLocation());
                     }
                 } else if (args[0].equalsIgnoreCase("remove")){
                     sender.sendMessage(ChatColor.BLUE + "You want to remove an NPC.");
+                    int id;
+                    try {
+                        id = Integer.parseInt(args[1]);
+                        if(NPCManager.removeNPC(id)) {
+                            sender.sendMessage(ChatColor.GREEN + "The NPC has been removed");
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "The NPC is still here!");
+                        }
+                        sender.sendMessage(ChatColor.BLUE + "Trying to remove the entity: " + id);
+                    } catch (Exception e) {
+                        sender.sendMessage(ChatColor.RED + args[1] + " it not a valid id, expecting an integer.");
+                        return true;
+                    }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Invalid arguments, expecting <spawn/remove>.");
                     return true;

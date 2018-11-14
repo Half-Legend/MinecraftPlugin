@@ -1,9 +1,11 @@
 package minecraftPG.rpgQuest;
 
 import org.bukkit.plugin.java.JavaPlugin;
+
 import minecraftPG.rpgQuest.events.EventsClass;
 import npc.NPCCommands;
 import npc.NPCManager;
+import npc.SLAPI;
 
 public class RpgQuest extends JavaPlugin{
     
@@ -17,7 +19,7 @@ public class RpgQuest extends JavaPlugin{
     }
     
     public void onDisable() {
-        
+        SLAPI.saveNPC();
     }
     
     /*@EventHandler

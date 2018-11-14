@@ -2,7 +2,7 @@ package minecraftPG.Economy;
 
 /**
  * Class loading & saving the config file.
- * @author geoff
+ * @author HalfLegend
  *
  */
 public class SLAPI {
