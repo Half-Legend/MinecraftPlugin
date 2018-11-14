@@ -1,5 +1,0 @@
-name: RpgQuest
-author: HalfLegend
-version: 1.0
-main: minecraftPG.rpgQuest.RpgQuest
-description: This plugin add the possibility to create quest by interacting with custom NPC.

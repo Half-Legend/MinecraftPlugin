@@ -1,0 +1,14 @@
+name: RpgQuest
+author: HalfLegend
+version: 1.0
+main: minecraftPG.rpgQuest.RpgQuest
+description: This plugin add the possibility to create quest by interacting with custom NPC.
+
+commands:
+    NPC:
+        description: To use this command, type /NPC <spawn/remove> <name>.
+        
+permissions:
+    NPC:
+        description: This permissions allow to spawn and remove NPC.
+        default: op
