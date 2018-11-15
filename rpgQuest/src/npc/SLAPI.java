@@ -1,6 +1,5 @@
 package npc;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,12 +7,9 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 
 import minecraftPG.rpgQuest.RpgQuest;
-import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
-import net.minecraft.server.v1_13_R2.WorldServer;
 
 /**
  * Class loading & saving the config file.
@@ -33,7 +29,7 @@ public class SLAPI {
             double x = location.getX();
             double y = location.getY();
             double z = location.getZ();
-            String[] list = {"x: " + x, "y: " + y, "z: " + z, "id: " + NPC.getId()};
+            String[] list = {"x: " + x, "y: " + y, "z: " + z, "id: " + NPCManager.getId(NPC)};
             plugin.getConfig().set("NPC." + NPC.getName(), list);
         }
         plugin.saveConfig();
@@ -47,6 +43,7 @@ public class SLAPI {
             double x;
             double y;
             double z;
+            int id;
             World world = Bukkit.getWorlds().get(0);
             
             for (String name : plugin.getConfig().getConfigurationSection("NPC").getKeys(false)) {
@@ -55,9 +52,10 @@ public class SLAPI {
                 x = getDouble((String) pos.get(0));
                 y = getDouble((String) pos.get(1));
                 z = getDouble((String) pos.get(2));
+                id = getId((String) pos.get(3));
                 
                 Location location = new Location(world, x, y, z);
-                NPCManager.createNPC(name, location);
+                NPCManager.createNPC(name, location, id);
             }
         }
         /*
@@ -74,7 +72,6 @@ public class SLAPI {
      * @param id int
      */
     public static void deleteNPC(String name, int id) {
-        int numberNpc = 0;
         if (plugin.getConfig().contains("NPC")) {
             for (String NPCName : plugin.getConfig().getConfigurationSection("NPC").getKeys(false)) {
                 if (NPCName.equalsIgnoreCase(name)) {
