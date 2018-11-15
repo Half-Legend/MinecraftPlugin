@@ -5,8 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import minecraftPG.rpgQuest.RpgQuest;
+import npc.NPCManager;
 
 /**
  * Class managing the events.
@@ -19,6 +21,12 @@ public class EventsClass implements Listener {
     
     public EventsClass(RpgQuest instance) {
         plugin = instance;
+    }
+    
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        NPCManager.loadNPCs(player);
     }
     
     @EventHandler

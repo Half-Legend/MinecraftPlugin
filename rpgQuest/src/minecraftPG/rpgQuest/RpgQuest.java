@@ -16,6 +16,7 @@ public class RpgQuest extends JavaPlugin{
         getCommand("NPC").setExecutor(new NPCCommands(getPlugin(this.getClass())));
         new NPCManager(getPlugin(this.getClass()));
         //getServer().getPluginManager().registerEvents(this, this);
+        SLAPI.loadNPC();
     }
     
     public void onDisable() {

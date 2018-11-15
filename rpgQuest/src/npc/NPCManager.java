@@ -77,9 +77,35 @@ public class NPCManager {
                 connection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER,customNPC));
             }
             NPCs.remove(customNPC);
+            SLAPI.deleteNPC(customNPC.getName(), id);
             return true;
         } else {
             return false;
+        }
+    }
+    
+    /**
+     * Load every NPCs so that each player can see them.
+     */
+    public static void loadNPCs() {
+        for (EntityPlayer NPC : NPCs.keySet()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+                connection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, NPC));
+                connection.sendPacket(new PacketPlayOutNamedEntitySpawn(NPC));
+            }
+        }
+    }
+    
+    /**
+     * Load every NPCs for one player.
+     * @param player
+     */
+    public static void loadNPCs(Player player) {
+        for (EntityPlayer NPC : NPCs.keySet()) {
+            PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+            connection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, NPC));
+            connection.sendPacket(new PacketPlayOutNamedEntitySpawn(NPC));
         }
     }
     

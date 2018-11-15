@@ -65,7 +65,7 @@ public class EventsClass implements Listener {
                     Pattern patternSellPrice = Pattern.compile("(\\d)+$");
                     Matcher sellPrice = patternSellPrice.matcher(event.getLine(2));
                     
-                    if(buyPrice.find() && sellPrice.find()) {
+                    if (buyPrice.find() && sellPrice.find()) {
                         int bPrice = Integer.parseInt(buyPrice.group());
                         int sPrice = Integer.parseInt(sellPrice.group());
                         if (bPrice > 0 && sPrice > 0) {

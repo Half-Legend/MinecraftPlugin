@@ -57,7 +57,6 @@ public class NPCCommands implements CommandExecutor{
                         } else {
                             sender.sendMessage(ChatColor.RED + "The NPC is still here!");
                         }
-                        sender.sendMessage(ChatColor.BLUE + "Trying to remove the entity: " + id);
                     } catch (Exception e) {
                         sender.sendMessage(ChatColor.RED + args[1] + " it not a valid id, expecting an integer.");
                         return true;
